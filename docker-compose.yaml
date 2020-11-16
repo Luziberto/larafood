@@ -1,28 +1,55 @@
 version: '3'
-
 services:
+
+  #PHP Service
   larafood-app:
     build: .
-    ports:
-    - "8080:80"
+    container_name: larafood-app
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www
     volumes:
-      - ./:/usr/share/nginx
+      - ./:/var/www
+      - ./.docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - app-network
 
-  larafood-mysql:
+  #Nginx Service
+  larafood-web:
+    image: nginx:alpine
+    container_name: larafood-web
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www
+      - ./.docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - app-network
+
+  #MySQL Service
+  larafood-db:
     image: mysql:5.7.22
-    command: --innodb-use-native-aio=0
+    restart: unless-stopped
+    tty: true
     ports:
       - "3308:3306"
     environment:
       MYSQL_DATABASE: larafood
       MYSQL_ROOT_PASSWORD: larafood
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql
     networks:
       - app-network
-    volumes:
-      - .docker/dbdata:/var/lib/mysql
 
+#Docker Networks
 networks:
   app-network:
     driver: bridge
+#Volumes
+volumes:
+  dbdata:
+    driver: local
