@@ -1,4 +1,4 @@
-FROM php:7.2.5-fpm
+FROM php:7.3-fpm
 
 # Copy composer.lock and composer.json
 COPY composer.lock composer.json /var/www/
@@ -17,9 +17,10 @@ RUN apt-get update && apt-get install -y \
     zip \
     jpegoptim optipng pngquant gifsicle \
     vim \
-    unzip \
+#    unzip \
     git \
-    curl
+    curl \
+    libzip-dev
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
