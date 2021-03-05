@@ -14,12 +14,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
-Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin'], function() {
+Route::group(['prefix' => 'admin', 'namespace' => 'admin', 'middleware' => 'bindings'], function() {
 /*
  * Routes Details Plans
  */
+    Route::get('plans/{plan}/details/create', 'DetailPlanController@create')->name('details.plan.create');
     Route::get('plans/{plan}/details', 'DetailPlanController@index')->name('details.plan.index');
+    Route::get('plans/{plan}/details/{detail}/edit', 'DetailPlanController@edit')->name('details.plan.edit');
+    Route::put('plans/{plan}/details/{detail}', 'DetailPlanController@update')->name('details.plan.update');
+    Route::delete('plans/{plan}/details/{detail}', 'DetailPlanController@destroy')->name('details.plan.destroy');
+    Route::get('plans/{plan}/details/{detail}', 'DetailPlanController@show')->name('details.plan.show');
+    Route::post('plans/{plan}/details', 'DetailPlanController@store')->name('details.plan.store');
 /*
  * Routes Plans
  */

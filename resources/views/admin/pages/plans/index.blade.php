@@ -39,7 +39,7 @@
                             <td>{{ $plan->name}}</td>
                             <td>R$ {{ number_format($plan->price, 2, ',', '.') }}</td>
                             <td>
-                                <a href="{{route('details.plan.index', $plan->id)}}" class="btn btn-success">Detalhes</a>
+                                <a href="{{route('details.plan.index', [ 'plan' => $plan->id ])}}" class="btn btn-success">Detalhes</a>
                                 <a href="{{route('plans.show', $plan->id)}}" class="btn btn-warning">Ver</a>
                                 <a href="{{route('plans.edit', $plan->id)}}" class="btn btn-info">Editar</a>
                             </td>
@@ -49,7 +49,11 @@
             </table>
         </div>
         <div class="card-footer">
-            {!! $plans->links() !!}
+            @if (isset($filters))
+                {!! $plans->appends($filters)->links() !!}
+            @else
+                {!! $plans->links() !!}
+            @endif
         </div>
     </div>
 @stop

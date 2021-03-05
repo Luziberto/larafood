@@ -3,10 +3,18 @@
 @section('title', "Detalhes do plano {$plan->name}")
 
 @section('content_header')
+    <ol class="breadcrumb">
+        <li>
+            <a class="breadcrumb-item" href="{{route('admin.index')}}">Dashboard</a>
+            <a class="breadcrumb-item" href="{{route('plans.index')}}">Planos</a>
+            <a class="breadcrumb-item" href="{{route('plans.show', $plan->id)}}">{{$plan->name}}</a>
+        </li>
+    </ol>
     <h1>Detalhes do plano <b>{{ $plan->name }}</b></h1>
 @stop
 
 @section('content')
+    @include('admin.includes.alerts')
     <div class="card">
         <div class="card-body">
             <ul>
