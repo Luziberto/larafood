@@ -15,6 +15,42 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['prefix' => 'admin', 'namespace' => 'admin', 'middleware' => 'bindings'], function() {
+
+/*
+ * Routes Permissions Profiles
+ */
+    Route::any('Profiles/{profile}/permissions/search', 'PermissionProfileController@search')->name('profiles.permissions.search');
+    Route::any('Profiles/{profile}/permissions/create/search', 'PermissionProfileController@searchPermissionsAvailable')->name('profiles.permissions.available.search');
+    Route::get('Profiles/{profile}/permissions/create', 'PermissionProfileController@permissionsAvailable')->name('profiles.permissions.available');
+    Route::get('Profiles/{profile}/permissions', 'PermissionProfileController@permissions')->name('profiles.permissions');
+    Route::delete('Profiles/{profile}/permissions/{permission}', 'PermissionProfileController@detachPermissionsProfile')->name('profiles.permissions.detach');
+//    Route::get('Profiles/{profile}/permissions/{detail}', 'PermissionProfileController@show')->name('permissions.profile.show');
+    Route::post('Profiles/{profile}/permissions', 'PermissionProfileController@attachPermissionsProfile')->name('profiles.permissions.attach');
+
+/*
+* Routes Permissions
+*/
+    Route::any('permissions/search', 'PermissionController@search')->name('permissions.search');
+    Route::get('permissions', 'PermissionController@index')->name('permissions.index');
+    Route::get('permissions/create', 'PermissionController@create')->name('permissions.create');
+    Route::get('permissions/{permission}/edit', 'PermissionController@edit')->name('permissions.edit');
+    Route::put('permissions/{permission}', 'PermissionController@update')->name('permissions.update');
+    Route::get('permissions/{permission}', 'PermissionController@show')->name('permissions.show');
+    Route::post('permissions', 'PermissionController@store')->name('permissions.store');
+    Route::delete('permissions/{permission}', 'PermissionController@destroy')->name('permissions.destroy');
+
+ /*
+ * Routes Profiles
+ */
+    Route::any('profiles/search', 'ProfileController@search')->name('profiles.search');
+    Route::get('profiles', 'ProfileController@index')->name('profiles.index');
+    Route::get('profiles/create', 'ProfileController@create')->name('profiles.create');
+    Route::get('profiles/{profile}/edit', 'ProfileController@edit')->name('profiles.edit');
+    Route::put('profiles/{profile}', 'ProfileController@update')->name('profiles.update');
+    Route::get('profiles/{profile}', 'ProfileController@show')->name('profiles.show');
+    Route::post('profiles', 'ProfileController@store')->name('profiles.store');
+    Route::delete('profiles/{profile}', 'ProfileController@destroy')->name('profiles.destroy');
+
 /*
  * Routes Details Plans
  */
@@ -35,7 +71,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'admin', 'middleware' => 'bind
     Route::put('plans/{id}', 'PlanController@update')->name('plans.update');
     Route::get('plans/{id}', 'PlanController@show')->name('plans.show');
     Route::post('plans', 'PlanController@store')->name('plans.store');
-    Route::delete('admin/plans/{id}', 'PlanController@destroy')->name('plans.destroy');
+    Route::delete('plans/{id}', 'PlanController@destroy')->name('plans.destroy');
 
     Route::get('/', 'PlanController@index')->name('admin.index');
 });
